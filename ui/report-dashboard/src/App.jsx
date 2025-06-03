@@ -88,7 +88,6 @@ export default function App() {
     return (
       <div>
         <div className="pb-2 text-sm text-gray-500 mb-2">{getBreadcrumb()}</div>
-        <h2 className="text-xl font-semibold mb-4">{reportObj.label}</h2>
         <div>{reportObj.reportComponent}</div>
       </div>
     );

@@ -1,50 +1,60 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import * as React from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { TextField } from "@mui/material";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const columns = [
+  { field: "zip_code", headerName: "ZIP CODE", width: 400 },
+  { field: "ccvi_category", headerName: "CCVI", width: 400 },
+];
 
-const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr"],
-  datasets: [
-    {
-      label: "Sales",
-      data: [120, 190, 300, 500],
-      backgroundColor: "rgba(59, 130, 246, 0.6)",
-    },
-  ],
-};
+export default function DataTable() {
+  const [rows, setRows] = React.useState([]);
+  const [searchText, setSearchText] = React.useState("");
+  const [filteredRows, setFilteredRows] = React.useState([]);
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: { position: "top" },
-    title: { display: true, text: "Monthly Sales" },
-  },
-};
+  React.useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/report1`)
+      .then((res) => res.json())
+      .then((data) => {
+        const mappedData = data.map((item, index) => ({
+          id: index,
+          zip_code: item.zip_code,
+          ccvi_category: item.ccvi_category,
+        }));
+        setRows(mappedData);
+        setFilteredRows(mappedData);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch data:", error);
+      });
+  }, []);
 
-const Report1 = () => (
-  <div>
-    <h2 className="text-2xl font-semibold mb-4">Report 1: Sales Chart</h2>
-    <div className="bg-white p-4 rounded shadow">
-      <Bar data={data} options={options} />
+  React.useEffect(() => {
+    const filtered = rows.filter((row) => {
+      return (
+        row.zip_code.toLowerCase().includes(searchText.toLowerCase()) ||
+        row.ccvi_category.toLowerCase().includes(searchText.toLowerCase())
+      );
+    });
+    setFilteredRows(filtered);
+  }, [searchText, rows]);
+
+  return (
+    <div class="w-[800px] h-[500px]">
+      <TextField
+        label="Search Name or City"
+        variant="outlined"
+        size="small"
+        onChange={(e) => setSearchText(e.target.value)}
+        style={{ marginBottom: 16 }}
+      />
+      <DataGrid
+        rows={filteredRows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5, 10]}
+        pagination
+      />
     </div>
-  </div>
-);
-
-export default Report1;
+  );
+}
