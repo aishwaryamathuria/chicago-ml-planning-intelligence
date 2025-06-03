@@ -211,6 +211,9 @@ export default function DataTable() {
 
   return (
     <div className="w-full h-[1000px] flex flex-wrap">
+      <div className="text-2xl font-semibold w-full pt-[20px] pb-[20px]">
+        Trips to and from O'Hare & Midway Airports
+      </div>
       <div style={{ width: "600px", height: 300, marginBottom: 24 }}>
         <Bar options={options1} data={barChart1Data} />
       </div>

@@ -3,6 +3,9 @@ import Report1 from "./components/Report1";
 import Report2 from "./components/Report2";
 import Report3 from "./components/Report3";
 import Report4 from "./components/Report4";
+import Report5 from "./components/Report5";
+import Report6 from "./components/Report6";
+import Report7 from "./components/Report7";
 
 const reportHierarchy = {
   category1: [
@@ -44,7 +47,7 @@ const reportHierarchy = {
       categoryLabel:
         "Community Investments, Business Incentives, Forecasting and Strategic Planning",
       reportLabel: "Report 1: Taxi trips forecast for construction planning.",
-      reportComponent: <Report2 />,
+      reportComponent: <Report5 />,
     },
     {
       id: "category2/report2",
@@ -53,7 +56,7 @@ const reportHierarchy = {
         "Community Investments, Business Incentives, Forecasting and Strategic Planning",
       reportLabel:
         "Report 2: Neighborhoods with highest unemployment and poverty rate.",
-      reportComponent: <Report2 />,
+      reportComponent: <Report6 />,
     },
     {
       id: "category2/report3",
@@ -61,7 +64,7 @@ const reportHierarchy = {
       categoryLabel:
         "Community Investments, Business Incentives, Forecasting and Strategic Planning",
       reportLabel: "Report 3: Low interest eligibility business candidates.",
-      reportComponent: <Report2 />,
+      reportComponent: <Report7 />,
     },
   ],
 };

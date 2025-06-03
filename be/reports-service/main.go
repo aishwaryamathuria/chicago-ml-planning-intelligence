@@ -34,6 +34,9 @@ func main() {
 	r.HandleFunc("/api/report4", reports.HandleReport4).Methods("GET")
 	r.HandleFunc("/api/report4a", reports.HandleReport4A).Methods("GET")
 	r.HandleFunc("/api/report4b", reports.HandleReport4B).Methods("GET")
+	r.HandleFunc("/api/report5", reports.HandleReport5).Methods("GET")
+	r.HandleFunc("/api/report5a", reports.HandleReport5A).Methods("GET")
+	r.HandleFunc("/api/report6", reports.HandleReport6).Methods("GET")
 
 	port := ":8080"
 	log.Printf("Reports service running on http://localhost%s", port)

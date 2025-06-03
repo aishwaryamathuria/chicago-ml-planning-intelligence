@@ -92,7 +92,10 @@ export default function DataTable() {
 
   return (
     <div className="w-full h-[1000px] flex flex-wrap items-center justify-center">
-      <div className="w-full">
+      <div className="text-2xl font-semibold w-full pt-[20px]">
+        Alert Sent to ZIP Codes
+      </div>
+      <div className="w-[950px] h-[500px">
         <Bar options={options} data={barChartData} />
       </div>
 
