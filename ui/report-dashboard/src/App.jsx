@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Report1 from "./components/Report1";
 import Report2 from "./components/Report2";
+import Report3 from "./components/Report3";
+import Report4 from "./components/Report4";
 
 const reportHierarchy = {
   category1: [
@@ -25,14 +27,14 @@ const reportHierarchy = {
       label: "Report 3",
       categoryLabel: "Communities and Businesses Welfare",
       reportLabel: "Report 3: Airport taxi trip and COVID-19 spread analysis.",
-      reportComponent: <Report2 />,
+      reportComponent: <Report3 />,
     },
     {
       id: "category1/report4",
       label: "Report 4",
       categoryLabel: "Communities and Businesses Welfare",
       reportLabel: "Report 4: Taxi trips in high CCVI neighborhoods",
-      reportComponent: <Report2 />,
+      reportComponent: <Report4 />,
     },
   ],
   category2: [

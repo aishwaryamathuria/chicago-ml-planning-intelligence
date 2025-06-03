@@ -3,8 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { TextField } from "@mui/material";
 
 const columns = [
-  { field: "zip_code", headerName: "ZIP CODE", width: 400 },
-  { field: "ccvi_category", headerName: "CCVI", width: 400 },
+  { field: "pickup_location", headerName: "Pickup ZIP Code", width: 300 },
+  { field: "dropoff_location", headerName: "Dropoff ZIP Code", width: 300 },
+  { field: "case_count", headerName: "Case Count", width: 300, type: "number" },
 ];
 
 export default function DataTable() {
@@ -13,13 +14,14 @@ export default function DataTable() {
   const [filteredRows, setFilteredRows] = React.useState([]);
 
   React.useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/report1`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/report3`)
       .then((res) => res.json())
       .then((data) => {
         const mappedData = data.map((item, index) => ({
           id: index,
-          zip_code: item.zip_code,
-          ccvi_category: item.ccvi_category,
+          pickup_location: item.pickup_location,
+          dropoff_location: item.dropoff_location,
+          case_count: Number(item.case_count),
         }));
         setRows(mappedData);
         setFilteredRows(mappedData);
@@ -32,15 +34,16 @@ export default function DataTable() {
   React.useEffect(() => {
     const filtered = rows.filter((row) => {
       return (
-        row.zip_code.toLowerCase().includes(searchText.toLowerCase()) ||
-        row.ccvi_category.toLowerCase().includes(searchText.toLowerCase())
+        row.pickup_location.toLowerCase().includes(searchText.toLowerCase()) ||
+        row.dropoff_location.toLowerCase().includes(searchText.toLowerCase()) ||
+        row.case_count.toString().includes(searchText.toLowerCase())
       );
     });
     setFilteredRows(filtered);
   }, [searchText, rows]);
 
   return (
-    <div className="w-[800px] h-[500px]">
+    <div className="w-[900px] h-[500px]">
       <TextField
         label="Search Name or City"
         variant="outlined"
