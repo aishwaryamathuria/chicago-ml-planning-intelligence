@@ -13,6 +13,7 @@ import (
 
 type Report1Result struct {
 	ZipCode      string `json:"zip_code"`
+	CCVIScore    string `json:"ccvi_score"`
 	CcviCategory string `json:"ccvi_category"`
 }
 
@@ -29,7 +30,7 @@ func HandleReport1(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	query := `SELECT DISTINCT zip_code, ccvi_category FROM stg_covid_ccvi WHERE ccvi_category = 'HIGH'`
+	query := `SELECT DISTINCT zip_code, ccvi_score, ccvi_category FROM stg_covid_ccvi WHERE ccvi_category = 'HIGH'`
 
 	rows, err := db.Query(query)
 	if err != nil {
@@ -41,7 +42,7 @@ func HandleReport1(w http.ResponseWriter, r *http.Request) {
 	var results []Report1Result
 	for rows.Next() {
 		var r Report1Result
-		if err := rows.Scan(&r.ZipCode, &r.CcviCategory); err != nil {
+		if err := rows.Scan(&r.ZipCode, &r.CCVIScore, &r.CcviCategory); err != nil {
 			handleError(fmt.Errorf("failed to scan row: %w", err), "Internal Server Error", http.StatusInternalServerError)
 			return
 		}

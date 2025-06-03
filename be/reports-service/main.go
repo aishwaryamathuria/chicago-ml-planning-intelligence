@@ -27,6 +27,10 @@ func main() {
 
 	r.HandleFunc("/api/report1", reports.HandleReport1).Methods("GET")
 	r.HandleFunc("/api/report3", reports.HandleReport3).Methods("GET")
+	r.HandleFunc("/api/report3a", reports.HandleReport3A).Methods("GET")
+	r.HandleFunc("/api/report3b", reports.HandleReport3B).Methods("GET")
+	r.HandleFunc("/api/report3c", reports.HandleReport3C).Methods("GET")
+	r.HandleFunc("/api/report3d", reports.HandleReport3D).Methods("GET")
 	r.HandleFunc("/api/report4", reports.HandleReport4).Methods("GET")
 	r.HandleFunc("/api/report4a", reports.HandleReport4A).Methods("GET")
 	r.HandleFunc("/api/report4b", reports.HandleReport4B).Methods("GET")
