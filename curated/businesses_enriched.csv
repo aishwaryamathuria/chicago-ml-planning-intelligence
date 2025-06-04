@@ -1,0 +1,5 @@
+business_id,business_name,latitude,longitude,area_numbe,zipcode
+101,Joe's Pizza,41.881,-87.627,, 
+102,Cafe Blue,,25.0, ,
+103,Bookstore,,,-87,60615
+104,Florist Shop,41.9,-87.65,, 

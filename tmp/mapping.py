@@ -13,10 +13,10 @@ intersections["intersection_area"] = intersections.geometry.area
 
 #For each AREA_NUMBE, selecting the ZIP code with the largest intersection area.
 dominant_zip = (
-    intersections.loc[:, ["AREA_NUMBE", "zip", "intersection_area"]]
+    intersections.loc[:, ["area_numbe", "zip", "intersection_area"]]
     .sort_values(by="intersection_area", ascending=False)
-    .drop_duplicates(subset="AREA_NUMBE")
-    .sort_values("AREA_NUMBE")
+    .drop_duplicates(subset="area_numbe")
+    .sort_values("area_numbe")
 )
-dominant_zip[["AREA_NUMBE", "zip"]].to_csv("community_area_to_zip_mapping.csv", index=False)
-print(dominant_zip[["AREA_NUMBE", "zip"]])
+dominant_zip[["area_numbe", "zip"]].to_csv("community_area_to_zip_mapping.csv", index=False)
+print(dominant_zip[["area_numbe", "zip"]])
