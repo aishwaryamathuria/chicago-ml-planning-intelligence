@@ -2,7 +2,7 @@
 
 ## ETL
 
-- Install Jenkins
+- Install Jenkins - https://www.jenkins.io/doc/book/installing/
 
 ## Forecasting Microservice
 

@@ -1,0 +1,50 @@
+import psycopg2
+from datetime import datetime, timedelta
+import geopandas as gpd
+from shapely import wkt
+import pandas as pd
+from sqlalchemy import create_engine
+
+SILVER_DATABASE = {
+    'dbname': 'ChicagoBusinessIntelligence_SILVER',
+    'user': 'postgres',
+    'password': 'root',
+    'host': 'localhost',
+    'port': 5432
+}
+
+GOLD_DATABASE = {
+    'dbname': 'ChicagoBusinessIntelligence_GOLD',
+    'user': 'postgres',
+    'password': 'root',
+    'host': 'localhost',
+    'port': 5432
+}
+
+TABLE_NAME = "public_health_stats"
+
+def fetch_data(cur, table_name):
+    time_diff = datetime.now() - timedelta(hours=12)
+    query = f"SELECT * FROM {table_name} WHERE last_updated >= '{time_diff}'"
+    cur.execute(query)
+    colnames = [desc[0] for desc in cur.description]
+    return pd.DataFrame(cur.fetchall(), columns=colnames)   
+
+if __name__ == "__main__":
+    try:
+        conn1 = psycopg2.connect(**SILVER_DATABASE)
+        cur1 = conn1.cursor()
+        df = fetch_data(cur1, TABLE_NAME)
+        df.drop(columns=['last_updated'], inplace=True)
+        engine = create_engine(
+            f"postgresql://{GOLD_DATABASE['user']}:{GOLD_DATABASE['password']}"
+            f"@{GOLD_DATABASE['host']}:{GOLD_DATABASE['port']}/{GOLD_DATABASE['dbname']}"
+        )
+        df.to_sql(TABLE_NAME, engine, if_exists='append', index=False)
+
+    except Exception as e:
+        print("Error occurred:", e)
+
+    finally:
+        cur1.close()
+        conn1.close()
