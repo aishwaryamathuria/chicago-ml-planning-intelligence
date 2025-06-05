@@ -1,0 +1,17 @@
+services:
+  go-app:
+    image: golang:latest
+    container_name: go_app_container
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8081:8081"
+    command: >
+      sh -c "
+        rm -rf ./folder &&
+        git clone https://github.com/aishwaryamathuria/NWU_MSDS432_Project ./folder &&
+        cd ./folder/be/reports-service &&
+        go mod download &&
+        go run main.go
+      "
