@@ -19,3 +19,7 @@
 Jenkins backup
 docker ps
 docker cp <container id>:/var/jenkins_home ~/Desktop/myJenkinsFolder/
+
+npm run dev
+go run main.go
+python flask_app.py

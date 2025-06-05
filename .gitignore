@@ -4,3 +4,4 @@ node_modules
 __pycache__
 rf_covid_model_clean.pkl
 rf_covid_model_clean_old.pkl
+label_encoder.pkl
