@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 .idea
 __pycache__
+rf_covid_model_clean.pkl
+rf_covid_model_clean_old.pkl
