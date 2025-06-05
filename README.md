@@ -15,3 +15,7 @@
 - Install nvm and Node (18)
 - npm run start
 - Also deployed
+
+Jenkins backup
+docker ps
+docker cp <container id>:/var/jenkins_home ~/Desktop/myJenkinsFolder/
