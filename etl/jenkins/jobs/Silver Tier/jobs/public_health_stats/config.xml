@@ -17,7 +17,7 @@
       <command>rm -rf NWU_MSDS432_Project
 git clone git@github.com:aishwaryamathuria/NWU_MSDS432_Project.git
 cd NWU_MSDS432_Project/etl/silver
-# python public_health_stats.py</command>
+python public_health_stats.py</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
