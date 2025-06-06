@@ -5,3 +5,5 @@ __pycache__
 rf_covid_model_clean.pkl
 rf_covid_model_clean_old.pkl
 label_encoder.pkl
+xgb_trip_model.pkl
+ipynb
