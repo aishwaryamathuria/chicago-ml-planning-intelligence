@@ -15,7 +15,10 @@ CONSTANT_ZIP_CODES = [
 
 # Covid case predictor model
 with open("rf_covid_model_clean.pkl", "rb") as f_model:
-    model = pickle.load(f_model)
+    model1 = pickle.load(f_model)
+
+with open('xgb_trip_model.pkl', 'rb') as f:
+    model2 = pickle.load(f)
 
 app = Flask(__name__)
 
@@ -30,7 +33,7 @@ def index():
     return "<h1>MSDS-432 Group 5: Chicago Business Intelligence for Strategic Planning</h1>"
 
 @app.route("/predict-covid-cases", methods=["GET", "OPTIONS"])
-def predict():
+def predictCovidCases():
     if request.method == "OPTIONS":
         return '', 204
     try:
@@ -45,7 +48,7 @@ def predict():
         "date_ordinal": date_ordinal
     } for zip_code in CONSTANT_ZIP_CODES])
 
-    predictions = model.predict(input_df)
+    predictions = model1.predict(input_df)
 
     results = {
         str(zip_code): round(pred, 2)
@@ -56,6 +59,49 @@ def predict():
         "date": date.strftime("%Y-%m-%d"),
         "predicted_case_counts": results
     })
+
+@app.route('/predict-traffic-pattern', methods=['POST'])
+def predictTrafficPattern():
+
+    data = request.json
+    if not data or 'records' not in data:
+        return jsonify({'error': 'Missing "records" key in JSON input'}), 400
+
+    records = data['records']
+    df = pd.DataFrame(records)
+
+    required_cols = ['zip', 'month', 'day', 'day_of_week', 'week']
+    missing_cols = [c for c in required_cols if c not in df.columns]
+    if missing_cols:
+        return jsonify({'error': f'Missing columns: {missing_cols}'}), 400
+
+    # Map zip to encoded index
+    def encode_zip(z):
+        try:
+            z_int = int(z)
+            return CONSTANT_ZIP_CODES.index(z_int)
+        except (ValueError, IndexError):
+            return None
+
+    df['zip_encoded'] = df['zip'].apply(encode_zip)
+
+    if df['zip_encoded'].isnull().any():
+        invalid_zips = df.loc[df['zip_encoded'].isnull(), 'zip'].unique().tolist()
+        return jsonify({'error': f'Invalid or unknown zip codes: {invalid_zips}'}), 400
+
+    features = ['zip_encoded', 'month', 'day', 'day_of_week', 'week']
+    X = df[features]
+
+    preds = model2.predict(X)
+    df['predicted_trip_count'] = preds
+
+    return jsonify(df[['zip', 'month', 'day', 'day_of_week', 'week', 'predicted_trip_count']].to_dict(orient='records'))
+
+
+@app.route('/alert-receiver', methods=['POST'])
+def alertReceiver():
+    print("\n\n\nAlert received\n\n\n")
+    return '', 200
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8083, debug=True)

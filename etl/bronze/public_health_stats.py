@@ -16,9 +16,17 @@ DESIRED_KEYS = [
                 ]
 
 if __name__ == "__main__":
+    filename = "public_health_stats.txt"
+    offset = 0
+    try:
+        with open(filename, "r") as f:
+            offset = int(f.read())
+    except:
+        offset = 0
+        with open(filename, "w") as f:
+            f.write("0")
     url = API_ENDPOINT
     record_count = soda_operations.fetch_total_record_count(url)
-    offset = 0
     while record_count > 0:
         params = {
             "$offset": offset,
@@ -32,3 +40,5 @@ if __name__ == "__main__":
         print("Inserted 1000 records.")
         record_count = record_count - 1000
         offset = offset + 1000
+        with open(filename, "w") as f:
+            f.write(offset)

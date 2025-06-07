@@ -136,7 +136,7 @@ export default function App() {
       <div className="flex-1 flex flex-col">
         <header className="h-14 bg-white border-b border-gray-300 flex items-center px-6 shadow-sm">
           <img
-            src="./src/assets/chicago-96.png"
+            src="/src/assets/chicago-96.png"
             width="40px"
             className="h-auto"
             alt="Logo"

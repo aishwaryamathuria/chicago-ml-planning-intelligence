@@ -24,7 +24,6 @@ FROM covid_cases
 """
 covid_df = pd.read_sql(covid_query, conn)
 
-# Convert weekly data to daily
 covid_daily = []
 for _, row in covid_df.iterrows():
     days = (row['end_date'] - row['start_date']).days + 1
@@ -45,15 +44,12 @@ for _, row in covid_df.iterrows():
 
 covid_daily_df = pd.DataFrame(covid_daily)
 
-# Feature engineering
 covid_daily_df['date_ordinal'] = covid_daily_df['date'].apply(lambda x: x.toordinal())
 covid_daily_df.rename(columns={'zip_code': 'zip_code_num'}, inplace=True)
 
-# Features and target
 features = covid_daily_df[['zip_code_num', 'date_ordinal']]
 target = covid_daily_df['daily_case_count']
 
-# Train/test split
 X_train, X_test, y_train, y_test = train_test_split(
     features, target, test_size=0.2, random_state=42
 )
@@ -70,10 +66,5 @@ print(f'RMSE: {rmse:.2f}')
 # Save model
 with open("rf_covid_model_clean.pkl", "wb") as f_model:
     pickle.dump(model, f_model)
-
-# Save test data with predictions
-X_test = X_test.copy()
-X_test["actual_case_count"] = y_test.values
-X_test["predicted_case_count"] = y_pred
 
 print("Model trained and saved to 'rf_covid_model_clean.pkl'")

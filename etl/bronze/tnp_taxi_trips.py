@@ -25,9 +25,17 @@ def to_wkt_string(loc):
     return None
 
 if __name__ == "__main__":
-    url = API_ENDPOINT
-    record_count = 8000000 #soda_operations.fetch_total_record_count(url)
+    filename = "taxi_trips.txt"
     offset = 0
+    try:
+        with open(filename, "r") as f:
+            offset = int(f.read())
+    except:
+        offset = 0
+        with open(filename, "w") as f:
+            f.write("0")
+    url = API_ENDPOINT
+    record_count = soda_operations.fetch_total_record_count(url)
     while record_count > 0:
         params = {
             "$offset": offset,
@@ -45,3 +53,5 @@ if __name__ == "__main__":
         record_count = record_count - 5000
         print("Inserted 5000 records. Remaining ", record_count)
         offset = offset + 5000
+        with open(filename, "w") as f:
+            f.write(offset)
